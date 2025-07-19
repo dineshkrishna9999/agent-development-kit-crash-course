@@ -4,8 +4,6 @@
 
 A Tool Agent extends the basic ADK agent by incorporating tools that allow the agent to perform actions beyond just generating text responses. Tools enable agents to interact with external systems, retrieve information, and perform specific functions to accomplish tasks more effectively.
 
-In this example, we demonstrate how to build an agent that can use built-in tools (like Google Search) and custom function tools to enhance its capabilities.
-
 ## Key Components
 
 ### 1. Built-in Tools
@@ -70,7 +68,7 @@ root_agent = Agent(
 )
 ```
 
-To use both types of tools, you would need to use the Agent Tool approach described in the Multi-Agent example.
+To use both types of tools, you would need to use the Agent Tool approach.
 
 ## Implementation Example
 
@@ -79,7 +77,7 @@ To use both types of tools, you would need to use the Agent Tool approach descri
 The agent.py file defines a tool agent that can use Google Search to find information on the web. The agent is configured with:
 
 1. A name and description
-2. The Gemini model to use
+2. The model to use
 3. Instructions that tell the agent how to behave and what tools it can use
 4. The tools it can access (in this case, google_search)
 

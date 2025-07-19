@@ -2,6 +2,8 @@
 
 This example demonstrates how to create and manage stateful sessions in the Agent Development Kit (ADK), enabling your agents to maintain context and remember user information across interactions.
 
+**Modified for learning**: This example has been customized with personalized user data and a quiz agent for interactive learning.
+
 ## What Are Sessions in ADK?
 
 Sessions in ADK provide a way to:
@@ -20,7 +22,7 @@ This directory contains a basic stateful session example that demonstrates:
 - Using template variables to access session state in agent instructions
 - Running the agent with a session to maintain context
 
-The example uses a simple question-answering agent that responds based on stored user information in the session state.
+The example uses a quiz agent that creates personalized quizzes based on stored user information in the session state.
 
 ## Project Structure
 
@@ -29,9 +31,9 @@ The example uses a simple question-answering agent that responds based on stored
 │
 ├── basic_stateful_session.py      # Main example script
 │
-└── question_answering_agent/      # Agent implementation
+└── quiz_agent/                    # Agent implementation
     ├── __init__.py
-    └── agent.py                   # Agent definition with template variables
+    └── agent.py                   # Quiz agent with template variables
 ```
 
 ## Getting Started
@@ -48,9 +50,9 @@ source ../.venv/bin/activate
 ..\.venv\Scripts\Activate.ps1
 ```
 
-2. Create a `.env` file and add your Google API key:
+2. Create a `.env` file and add your API key:
 ```
-GOOGLE_API_KEY=your_api_key_here
+AZURE_MODEL=your_model_here
 ```
 
 ### Running the Example
@@ -63,8 +65,8 @@ python basic_stateful_session.py
 
 This will:
 1. Create a new session with user information
-2. Initialize the agent with access to that session
-3. Process a user query about the stored preferences
+2. Initialize the quiz agent with access to that session
+3. Process a user query about learning preferences
 4. Display the agent's response based on the session data
 
 ## Key Components
@@ -83,13 +85,8 @@ Sessions are created with an initial state containing user information:
 
 ```python
 initial_state = {
-    "user_name": "Brandon Hancock",
-    "user_preferences": """
-        I like to play Pickleball, Disc Golf, and Tennis.
-        My favorite food is Mexican.
-        My favorite TV show is Game of Thrones.
-        Loves it when people like and subscribe to his YouTube channel.
-    """,
+    "user_name": "Dinesh",
+    "user_preferences": "I want to learn the Google ADK. My favorite programming language is python.",
 }
 ```
 
@@ -108,17 +105,20 @@ stateful_session = session_service.create_session(
 
 ### Accessing State in Agent Instructions
 
-The agent accesses session state using template variables in its instructions:
+The quiz agent accesses session state using template variables in its instructions:
 
 ```python
 instruction="""
-You are a helpful assistant that answers questions about the user's preferences.
+You are a helpful quiz assistant that asks questions to users based on their preferences.
 
 Here is some information about the user:
-Name: 
-{user_name}
-Preferences: 
-{user_preferences}
+Name: {user_name}
+Preferences: {user_preferences}
+
+IMPORTANT BEHAVIOR:
+- If the user's name is "Unknown User" or empty, ask for their real name first
+- If preferences say something like "Please tell me what you'd like to learn about", ask them to specify their learning interests
+- Once you have real user information, create personalized quizzes based on their stated preferences
 """
 ```
 
@@ -128,11 +128,21 @@ Sessions are integrated with the `Runner` to maintain state between interactions
 
 ```python
 runner = Runner(
-    agent=question_answering_agent,
+    agent=root_agent,
     app_name=APP_NAME,
     session_service=session_service,
 )
 ```
+
+### Web Interface
+
+You can also run the quiz agent through the web interface:
+
+```bash
+adk web
+```
+
+Then select "quiz_agent" from the dropdown. The web interface will start with empty sessions, and the agent will ask for user information during the conversation.
 
 ## Additional Resources
 

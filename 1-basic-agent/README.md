@@ -26,6 +26,8 @@ parent_folder/
 ### Essential Components:
 
 1. **`__init__.py`**
+   - We need this because it marks our directoy as a package and lets say we want to import the agent.py from outside the folder ex: from foldername import agent
+     so this works only if we mention the __init__.py
    - Must import the agent module: `from . import agent`
    - This makes your agent discoverable by ADK
 
@@ -46,7 +48,7 @@ This structure ensures that ADK can automatically discover and load your agent w
 - **description** (Optional, but recommended): A concise summary of the agent's capabilities. Used for other agents to determine if they should route a task to this agent.
 
 ### 2. Model (`model`)
-- Specifies which LLM powers the agent (e.g., "gemini-2.0-flash")
+- Specifies which LLM powers the agent (e.g., "gemini-2.0-flash") and to use other models you can use the liteLLM.
 - Affects the agent's capabilities, cost, and performance
 
 ### 3. Instructions (`instruction`)
@@ -80,7 +82,8 @@ source ../.venv/bin/activate
 
 2. Set up your API key:
    - Rename `.env.example` to `.env` in the greeting_agent folder
-   - Add your Google API key to the `GOOGLE_API_KEY` variable in the `.env` file
+   - Add your Google API key to the `GOOGLE_API_KEY` variable in the `.env` file or someother API key 
+   
 
 ## Running the Example
 
@@ -113,11 +116,10 @@ The ADK CLI tool provides several options:
 - **`adk run [agent_name]`**: Runs your agent directly in the terminal
 - **`adk api_server`**: Starts a FastAPI server to test API requests to your agent
 
-### Example Prompts to Try
+### Example Prompt to Try
 
-- "How do you say hello in Spanish?"
-- "What's a formal greeting in Japanese?"
-- "Tell me how to greet someone in French"
+- "Give me a pro tip?"
+
 
 You can exit the conversation or stop the server by pressing `Ctrl+C` in your terminal.
 

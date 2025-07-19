@@ -1,5 +1,10 @@
 from google.adk.agents import LlmAgent
 from pydantic import BaseModel, Field
+import os
+from google.adk.models.lite_llm import LiteLlm
+
+from dotenv import load_dotenv
+load_dotenv()
 
 
 # --- Define Output Schema ---
@@ -15,7 +20,7 @@ class EmailContent(BaseModel):
 # --- Create Email Generator Agent ---
 root_agent = LlmAgent(
     name="email_agent",
-    model="gemini-2.0-flash",
+    model=LiteLlm(model=os.environ["AZURE_MODEL"]),
     instruction="""
         You are an Email Generation Assistant.
         Your task is to generate a professional email based on the user's request.
