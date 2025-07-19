@@ -1,5 +1,9 @@
 from google.adk.agents import Agent
 from google.adk.tools.tool_context import ToolContext
+from google.adk.models.lite_llm import LiteLlm
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def get_nerd_joke(topic: str, tool_context: ToolContext) -> dict:
@@ -30,7 +34,7 @@ def get_nerd_joke(topic: str, tool_context: ToolContext) -> dict:
 # Create the funny nerd agent
 funny_nerd = Agent(
     name="funny_nerd",
-    model="gemini-2.0-flash",
+    model=LiteLlm(model=os.environ["AZURE_MODEL"]),  #or model = "gemini-2.0-flash",
     description="An agent that tells nerdy jokes about various topics.",
     instruction="""
     You are a funny nerd agent that tells nerdy jokes about various topics.

@@ -2,6 +2,8 @@
 
 This example demonstrates how to create a multi-agent system in ADK, where specialized agents collaborate to handle complex tasks, each focusing on their area of expertise.
 
+**Modified for learning**: This example has been customized with personalized agents and simplified dependencies.
+
 ## What is a Multi-Agent System?
 
 A Multi-Agent System is an advanced pattern in the Agent Development Kit (ADK) that allows multiple specialized agents to work together to handle complex tasks. Each agent can focus on a specific domain or functionality, and they can collaborate through delegation and communication to solve problems that would be difficult for a single agent.
@@ -42,10 +44,11 @@ parent_folder/
    ```python
    from .sub_agents.funny_nerd.agent import funny_nerd
    from .sub_agents.stock_analyst.agent import stock_analyst
+   from .sub_agents.greeting_agent.agent import greeting_agent
    ```
 
 4. **Command Location**
-   - Always run `adk web` from the parent directory (`6-multi-agent`), not from inside any agent directory
+   - Always run `adk web` from the parent directory (`7-multi-agent`), not from inside any agent directory
 
 This structure ensures that ADK can discover and correctly load all agents in the hierarchy.
 
@@ -63,7 +66,7 @@ root_agent = Agent(
     model="gemini-2.0-flash",
     description="Manager agent",
     instruction="You are a manager agent that delegates tasks to specialized agents...",
-    sub_agents=[stock_analyst, funny_nerd],
+    sub_agents=[stock_analyst, funny_nerd, greeting_agent],
 )
 ```
 
@@ -118,56 +121,18 @@ coding_agent = Agent(
     instruction="You're a specialist in Code Execution",
     tools=[built_in_code_execution],  # Built-in tool
 )
-root_agent = Agent(
-    name="RootAgent",
-    model="gemini-2.0-flash",
-    description="Root Agent",
-    sub_agents=[
-        search_agent,  # NOT SUPPORTED
-        coding_agent   # NOT SUPPORTED
-    ],
-)
-```
-
-### Workaround Using Agent Tools
-
-To use multiple built-in tools or to combine built-in tools with other tools, you can use the `AgentTool` approach:
-
-```python
-from google.adk.tools import agent_tool
-
-search_agent = Agent(
-    model='gemini-2.0-flash',
-    name='SearchAgent',
-    instruction="You're a specialist in Google Search",
-    tools=[google_search],
-)
-coding_agent = Agent(
-    model='gemini-2.0-flash',
-    name='CodeAgent',
-    instruction="You're a specialist in Code Execution",
-    tools=[built_in_code_execution],
-)
-root_agent = Agent(
-    name="RootAgent",
-    model="gemini-2.0-flash",
-    description="Root Agent",
-    tools=[
-        agent_tool.AgentTool(agent=search_agent), 
-        agent_tool.AgentTool(agent=coding_agent)
-    ],
-)
 ```
 
 This approach wraps agents as tools, allowing the root agent to delegate to specialized agents that each use a single built-in tool.
 
 ## Our Multi-Agent Example
 
-This example implements a manager agent that works with three specialized agents:
+This example implements a manager agent that works with four specialized agents:
 
-1. **Stock Analyst** (Sub-agent): Provides financial information and stock market insights
-2. **Funny Nerd** (Sub-agent): Creates nerdy jokes about technical topics
-3. **News Analyst** (Agent Tool): Gives summaries of current technology news
+1. **Stock Analyst** (Sub-agent): Provides simulated stock market data and financial information for demonstration purposes
+2. **Funny Nerd** (Sub-agent): Creates nerdy jokes about programming and technical topics
+3. **Greeting Agent** (Sub-agent): Handles user interactions, welcomes, and provides general assistance
+4. **News Analyst** (Agent Tool): Gives summaries of current technology news
 
 The manager agent routes queries to the appropriate specialist based on the content of the user's request.
 
@@ -187,13 +152,13 @@ source ../.venv/bin/activate
 
 2. Set up your API key:
    - Rename `.env.example` to `.env` in the manager folder
-   - Add your Google API key to the `GOOGLE_API_KEY` variable in the `.env` file
+   - Add your Azure model configuration to the `AZURE_MODEL` variable in the `.env` file
 
 ## Running the Example
 
 To run the multi-agent example:
 
-1. Navigate to the 6-multi-agent directory containing your agent folders.
+1. Navigate to the 7-multi-agent directory containing your agent folders.
 
 2. Start the interactive web UI:
 ```bash
@@ -209,16 +174,17 @@ adk web
 ### Troubleshooting
 
 If your multi-agent setup doesn't appear properly in the dropdown menu:
-- Make sure you're running `adk web` from the parent directory (6-multi-agent)
+- Make sure you're running `adk web` from the parent directory (7-multi-agent)
 - Verify that each agent's `__init__.py` properly imports its respective `agent.py`
 - Check that the root agent properly imports all sub-agents
 
 ### Example Prompts to Try
 
-- "Can you tell me about the stock market today?"
-- "Tell me something funny about programming"
-- "What's the latest tech news?"
-- "What time is it right now?"
+- "Can you show me some stock prices?" (→ Stock Analyst)
+- "Tell me a programming joke" (→ Funny Nerd)
+- "Hello! How are you today?" (→ Greeting Agent)
+- "What's the latest tech news?" (→ News Analyst)
+- "What time is it right now?" (→ Uses built-in tool)
 
 You can exit the conversation or stop the server by pressing `Ctrl+C` in your terminal.
 
