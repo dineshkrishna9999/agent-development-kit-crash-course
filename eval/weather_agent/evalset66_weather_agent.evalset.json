@@ -1,0 +1,199 @@
+[
+  {
+    "name": "simple_weather_query_test",
+    "data": [
+      {
+        "query": "what is the weather in new york",
+        "expected_tool_use": [
+          {
+            "tool_name": "get_weather",
+            "tool_input": {
+              "city": "New York"
+            }
+          }
+        ],
+        "expected_intermediate_agent_responses": [],
+        "reference": "The weather in New York is sunny with a temperature of 22°C."
+      },
+      {
+        "query": "how about london",
+        "expected_tool_use": [
+          {
+            "tool_name": "get_weather",
+            "tool_input": {
+              "city": "London"
+            }
+          }
+        ],
+        "expected_intermediate_agent_responses": [],
+        "reference": "The weather in London is rainy with a temperature of 15°C."
+      },
+      {
+        "query": "what about tokyo weather",
+        "expected_tool_use": [
+          {
+            "tool_name": "get_weather",
+            "tool_input": {
+              "city": "Tokyo"
+            }
+          }
+        ],
+        "expected_intermediate_agent_responses": [],
+        "reference": "The weather in Tokyo is cloudy with a temperature of 28°C."
+      }
+    ],
+    "initial_session": {
+      "state": {},
+      "app_name": "weather_agent",
+      "user_id": "user"
+    }
+  },
+  {
+    "name": "greeting_and_weather_test",
+    "data": [
+      {
+        "query": "hi what is the weather in paris",
+        "expected_tool_use": [
+          {
+            "tool_name": "get_weather",
+            "tool_input": {
+              "city": "Paris"
+            }
+          }
+        ],
+        "expected_intermediate_agent_responses": [],
+        "reference": "The weather in Paris is sunny with a temperature of 18°C."
+      },
+      {
+        "query": "what about sydney",
+        "expected_tool_use": [
+          {
+            "tool_name": "get_weather",
+            "tool_input": {
+              "city": "Sydney"
+            }
+          }
+        ],
+        "expected_intermediate_agent_responses": [],
+        "reference": "The weather in Sydney is windy with a temperature of 25°C."
+      }
+    ],
+    "initial_session": {
+      "state": {},
+      "app_name": "weather_agent",
+      "user_id": "user"
+    }
+  },
+  {
+    "name": "error_handling_test",
+    "data": [
+      {
+        "query": "hi",
+        "expected_tool_use": [],
+        "expected_intermediate_agent_responses": [],
+        "reference": "Hello! I'm a simple weather assistant. I can help you with weather information for Chennai,New York, London, Tokyo, Paris, and Sydney. Which city would you like to know about?"
+      },
+      {
+        "query": "what is the weather in miami",
+        "expected_tool_use": [
+          {
+            "tool_name": "get_weather",
+            "tool_input": {
+              "city": "Miami"
+            }
+          }
+        ],
+        "expected_intermediate_agent_responses": [],
+        "reference": "No weather data for Miami. Try: New York, London, Tokyo, Paris, Sydney"
+      },
+      {
+        "query": "what cities can you help with",
+        "expected_tool_use": [],
+        "expected_intermediate_agent_responses": [],
+        "reference": "I can help you with weather information for New York, London, Tokyo, Paris, and Sydney. Which city would you like to know about?"
+      },
+      {
+        "query": "tell me about the current time",
+        "expected_tool_use": [],
+        "expected_intermediate_agent_responses": [],
+        "reference": "I'm focused on providing weather information. I can help you with weather for New York, London, Tokyo, Paris, and Sydney. Which city's weather would you like to know about?"
+      }
+    ],
+    "initial_session": {
+      "state": {},
+      "app_name": "weather_agent",
+      "user_id": "user"
+    }
+  },
+  {
+    "name": "case_sensitivity_test",
+    "data": [
+      {
+        "query": "weather in NEW YORK please",
+        "expected_tool_use": [
+          {
+            "tool_name": "get_weather",
+            "tool_input": {
+              "city": "NEW YORK"
+            }
+          }
+        ],
+        "expected_intermediate_agent_responses": [],
+        "reference": "The weather in New York is sunny with a temperature of 22°C."
+      },
+      {
+        "query": "how about ToKyO",
+        "expected_tool_use": [
+          {
+            "tool_name": "get_weather",
+            "tool_input": {
+              "city": "ToKyO"
+            }
+          }
+        ],
+        "expected_intermediate_agent_responses": [],
+        "reference": "The weather in Tokyo is cloudy with a temperature of 28°C."
+      }
+    ],
+    "initial_session": {
+      "state": {},
+      "app_name": "weather_agent", 
+      "user_id": "user"
+    }
+  },
+  {
+    "name": "natural_conversation_test",
+    "data": [
+      {
+        "query": "hello there!",
+        "expected_tool_use": [],
+        "expected_intermediate_agent_responses": [],
+        "reference": "Hello! I'm a weather assistant. I can provide weather information for New York, London, Tokyo, Paris, and Sydney. Which city would you like to know about?"
+      },
+      {
+        "query": "london sounds good",
+        "expected_tool_use": [
+          {
+            "tool_name": "get_weather",
+            "tool_input": {
+              "city": "London"
+            }
+          }
+        ],
+        "expected_intermediate_agent_responses": [],
+        "reference": "The weather in London is rainy with a temperature of 15°C."
+      },
+      {
+        "query": "thanks, that's helpful",
+        "expected_tool_use": [],
+        "expected_intermediate_agent_responses": [],
+        "reference": "You're welcome! If you need weather information for any other cities (New York, Tokyo, Paris, or Sydney), just let me know!"
+      }
+    ],
+    "initial_session": {
+      "state": {},
+      "app_name": "weather_agent",
+      "user_id": "user"
+    }
+  }
+] 
